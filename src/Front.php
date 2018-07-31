@@ -1,8 +1,9 @@
 <?php
 
-namespace Transitive\Front;
+namespace Transitive\Web;
 
 use Transitive\Core;
+use Transitive\Simple;
 use Transitive\Routing;
 
 function getBestSupportedMimeType($mimeTypes = null) {
@@ -37,10 +38,10 @@ function getBestSupportedMimeType($mimeTypes = null) {
 /**
  * WebFront class.
  *
- * @extends BasicFront
- * @implements FrontController
+ * @extends Simple\Front
+ * @implements Routing\FrontController
  */
-class WebFront extends BasicFront implements FrontController
+class Front extends Simple\Front implements Routing\FrontController
 {
     private $httpErrorRoute;
     private static $defaultHttpErrorRoute;
@@ -57,7 +58,7 @@ class WebFront extends BasicFront implements FrontController
         'text/plain',
     );
 
-    public const defaultViewClassName = '\Transitive\Core\WebView';
+    public const defaultViewClassName = '\Transitive\Web\View';
 
     public function __construct()
     {
@@ -65,7 +66,7 @@ class WebFront extends BasicFront implements FrontController
         $this->obClean = true;
         $this->obContent = '';
 
-        $this->layout = new Routing\Route(new Core\Presenter(), new Core\BasicView());
+        $this->layout = new Routing\Route(new Core\Presenter(), new Simple\View());
 
         $this->setLayoutContent(function ($data) { ?><!DOCTYPE html>
 <html>

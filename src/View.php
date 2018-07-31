@@ -1,8 +1,11 @@
 <?php
 
-namespace Transitive\Core;
+namespace Transitive\Web;
 
-class WebView extends BasicView implements View
+use Transitive\Core;
+use Transitive\Simple;
+
+class View extends Simple\View implements Core\View
 {
     /**
      * styles tags and linked scripts.
@@ -45,11 +48,11 @@ class WebView extends BasicView implements View
     }
 
     /*
-     * @return ViewResource
+     * @return Core\ViewResource
      */
-    public function getHeadValue(): ViewResource
+    public function getHeadValue(): Core\ViewResource
     {
-        return new ViewResource(array(
+        return new Core\ViewResource(array(
             'metas' => $this->getMetasValue(),
             'title' => $this->getTitleValue(),
             'scripts' => $this->getScriptsValue(),
