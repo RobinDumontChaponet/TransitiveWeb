@@ -1,32 +1,31 @@
-# Transitive\Front
+# Transitive\Web
 
-[![Latest Stable Version](https://poser.pugx.org/transitive/front/v/stable?format=flat-square)](https://packagist.org/packages/transitive/front)
-[![License](https://poser.pugx.org/transitive/front/license?format=flat-square)](https://packagist.org/packages/transitive/front)
-[![Build Status](https://travis-ci.org/RobinDumontChaponet/TransitiveFront.svg?branch=next)](https://travis-ci.org/RobinDumontChaponet/TransitiveFront)
-[![Coverage Status](https://coveralls.io/repos/github/RobinDumontChaponet/TransitiveFront/badge.svg)](https://coveralls.io/github/RobinDumontChaponet/TransitiveFront)
+[![Latest Stable Version](https://poser.pugx.org/transitive/web/v/stable?format=flat-square)](https://packagist.org/packages/transitive/web)
+[![License](https://poser.pugx.org/transitive/web/license?format=flat-square)](https://packagist.org/packages/transitive/web)
+[![Build Status](https://travis-ci.org/RobinDumontChaponet/TransitiveWeb.svg?branch=master)](https://travis-ci.org/RobinDumontChaponet/TransitiveWeb)
+[![Coverage Status](https://coveralls.io/repos/github/RobinDumontChaponet/TransitiveWeb/badge.svg)](https://coveralls.io/github/RobinDumontChaponet/TransitiveWeb)
 
 ## Installation
 
 ```sh
-composer require transitive/front
+composer require transitive/web
 ```
 
 ## Basic Usage
 
 ```php
 <?php
-use Transitive\Front;
-use Transitive\Core\Route;
+
+use Transitive\Web;
+use Transitive\Routing;
 
 require __DIR__.'/../vendor/autoload.php';
 
-$front = new Transitive\Front\WebFront();
+$front = new Web\WebFront();
 
-$front->addRouter(new Transitive\Front\PathRouter(dirname(dirname(__FILE__)).'/presenters', dirname(dirname(__FILE__)).'/views'));
+$front->addRouter(new Routing\PathRouter(dirname(dirname(__FILE__)).'/presenters', dirname(dirname(__FILE__)).'/views'));
 
-$request = @$_GET['request'];
-
-$front->execute($request ?? 'index');
+$front->execute(@$_GET['request'] ?? 'index');
 
 echo $front;
 
