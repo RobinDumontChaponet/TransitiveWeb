@@ -1,0 +1,42 @@
+{
+	"name": "transitive/web",
+	"description": "Web Front controller and view for transitive.",
+	"keywords": ["web, framework", "mvp", "router", "frontcontroller", "model", "view", "presenter"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Robin Dumont-Chaponet",
+			"email": "src@dumontchapo.net",
+			"homepage": "https://robin.dumontchapo.net",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": "^7.1",
+		"transitive/core":"dev-next",
+		"transitive/routing":"dev-master"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~6.4.0",
+		"friendsofphp/php-cs-fixer": "^2.10"
+    },
+	"suggest": {
+        "transitive/utils": "sometimes usefull methods and function",
+		"nikic/fast-route": "Fast request router for PHP"
+    },
+	"autoload": {
+		"psr-4": {
+			"Transitive\\Web\\": "src/"
+		}
+	},
+    "autoload-dev": {
+        "psr-4": {
+            "Transitive\\Web\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit --coverage-text --coverage-clover=build/logs/coverage.xml",
+        "check": "./vendor/bin/php-cs-fixer fix --dry-run",
+        "fix": "./vendor/bin/php-cs-fixer fix"
+    }
+}
