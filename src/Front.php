@@ -262,4 +262,4 @@ class Front extends Simple\Front implements Routing\FrontController
     }
 }
 
-WebFront::setDefaultHttpErrorRoute(new Routing\Route(dirname(getcwd()).'/presenters/genericHttpErrorHandler.php', dirname(getcwd()).'/views/genericHttpErrorHandler.php', null, [], WebFront::defaultViewClassName));
+Front::setDefaultHttpErrorRoute(new Routing\Route(dirname(getcwd()).'/presenters/genericHttpErrorHandler.php', dirname(getcwd()).'/views/genericHttpErrorHandler.php', null, [], Front::defaultViewClassName));
