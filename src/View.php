@@ -50,7 +50,7 @@ class View extends Simple\View implements Core\View
     /*
      * @return Core\ViewResource
      */
-    public function getHeadValue(): Core\ViewResource
+    public function getHead(): Core\ViewResource
     {
         return new Core\ViewResource(array(
             'metas' => $this->getMetasValue(),
@@ -63,10 +63,10 @@ class View extends Simple\View implements Core\View
     /*
      * @return string
      */
-    public function getHead(): string
+    public function getHeadValue(): string
     {
         return '<head><meta charset="UTF-8">'
-               .$this->getHeadValue()->asString()
+               .$this->getHead()->asString()
                .'</head>';
     }
 
