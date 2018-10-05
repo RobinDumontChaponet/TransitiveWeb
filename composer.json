@@ -13,7 +13,7 @@
 	],
 	"require": {
 		"php": "^7.1",
-		"transitive/core":"^2.2 <3.0",
+		"transitive/core":"^2.3 <3.0",
 		"transitive/routing":"^2.2 <3.0"
 	},
 	"require-dev": {
