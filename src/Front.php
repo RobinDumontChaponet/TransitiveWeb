@@ -106,7 +106,7 @@ class Front extends Simple\Front implements Routing\FrontController
         }
     }
 
-    public function execute(string $queryURL = null): ?Routing\Route
+    public function execute(string $queryURL = null, bool $sendHeaders = true): ?Routing\Route
     {
         $this->contentType = getBestSupportedMimeType(self::$mimeTypes);
         $this->route = $this->_getRoute($queryURL, self::defaultViewClassName);
@@ -116,26 +116,28 @@ class Front extends Simple\Front implements Routing\FrontController
                 $this->obContent = $this->route->execute($this->obClean);
                 $this->executed = true;
             } catch(Routing\RoutingException $e) {
-                if($e->getCode() > 200) {
+                if($sendHeaders && $e->getCode() > 200) {
                     http_response_code($e->getCode());
                     $_SERVER['REDIRECT_STATUS'] = $e->getCode();
                 }
             } catch(Core\BreakFlowException $e) {
-                $this->execute($e->getQueryURL());
+                return $this->execute($e->getQueryURL(), $sendHeaders);
             }
 
-            if(/* !$this->route->hasView() ||  */($this->route->hasView() && !$this->route->getView()->hasContent())) {
-                http_response_code(204);
-                $_SERVER['REDIRECT_STATUS'] = 204;
+			if($sendHeaders) {
+	            if(/* !$this->route->hasView() || */($this->route->hasView() && !$this->route->getView()->hasContent())) {
+	                http_response_code(204);
+	                $_SERVER['REDIRECT_STATUS'] = 204;
+	            }
+	            if(!empty($this->contentType)) {
+	                header('Content-Type: '.$this->contentType);
+	                if(!in_array($this->contentType, array('application/xhtml+xml', 'text/html', 'plain/text'))) {
+	                    header('Expires: '.gmdate('D, d M Y H:i:s').' GMT');
+	                    header('Cache-Control: public, max-age=60');
+	                }
+	            }
+	            header('Vary: X-Requested-With,Content-Type');
             }
-            if(!empty($this->contentType)) {
-                header('Content-Type: '.$this->contentType);
-                if(!in_array($this->contentType, array('application/xhtml+xml', 'text/html', 'plain/text'))) {
-                    header('Expires: '.gmdate('D, d M Y H:i:s').' GMT');
-                    header('Cache-Control: public, max-age=60');
-                }
-            }
-            header('Vary: X-Requested-With,Content-Type');
 
             $content = ['view' => $this->route->getView()];
 
