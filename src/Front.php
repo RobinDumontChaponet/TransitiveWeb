@@ -108,7 +108,6 @@ class Front extends Simple\Front implements Routing\FrontController
 
     public function execute(string $queryURL = null, bool $sendHeaders = true): ?Routing\Route
     {
-        $this->contentType = getBestSupportedMimeType(self::$mimeTypes);
         $this->route = $this->_getRoute($queryURL, self::defaultViewClassName);
 
         if(isset($this->route)) {
@@ -124,19 +123,19 @@ class Front extends Simple\Front implements Routing\FrontController
                 return $this->execute($e->getQueryURL(), $sendHeaders);
             }
 
-			if($sendHeaders) {
-	            if(/* !$this->route->hasView() || */($this->route->hasView() && !$this->route->getView()->hasContent())) {
-	                http_response_code(204);
-	                $_SERVER['REDIRECT_STATUS'] = 204;
-	            }
-	            if(!empty($this->contentType)) {
-	                header('Content-Type: '.$this->contentType);
-	                if(!in_array($this->contentType, array('application/xhtml+xml', 'text/html', 'plain/text'))) {
-	                    header('Expires: '.gmdate('D, d M Y H:i:s').' GMT');
-	                    header('Cache-Control: public, max-age=60');
-	                }
-	            }
-	            header('Vary: X-Requested-With,Content-Type');
+            if($sendHeaders) {
+                if(/* !$this->route->hasView() || */($this->route->hasView() && !$this->route->getView()->hasContent())) {
+                    http_response_code(204);
+                    $_SERVER['REDIRECT_STATUS'] = 204;
+                }
+                if(!empty($this->contentType)) {
+                    header('Content-Type: '.$this->contentType);
+                    if(!in_array($this->contentType, array('application/xhtml+xml', 'text/html', 'plain/text'))) {
+                        header('Expires: '.gmdate('D, d M Y H:i:s').' GMT');
+                        header('Cache-Control: public, max-age=60');
+                    }
+                }
+                header('Vary: X-Requested-With,Content-Type');
             }
 
             $content = ['view' => $this->route->getView()];
@@ -177,8 +176,9 @@ class Front extends Simple\Front implements Routing\FrontController
      * @return string
      *
      * @param string $contentType = null
+     * @param string $key         = null
      */
-    public function getContent(string $contentType = null): string
+    public function getContent(string $contentType = null, string $contentKey = null): string
     {
         if(empty($this->route)) {
             http_response_code(404);
@@ -228,24 +228,29 @@ class Front extends Simple\Front implements Routing\FrontController
             break;
 
             case 'text/plain':
-                return $this->getContent()->asString();
+                return $this->layout->getContent()->asString();
             break;
 
             case 'application/json':
-                if($this->route->hasContent('api'))
-                    return $this->route->getContent('api')->asJson();
+                if($this->route->hasContent('application/json'))
+                    return $this->route->getContentByType('application/json')->asJson();
                 elseif(404 != http_response_code()) {
                     http_response_code(404);
                     $_SERVER['REDIRECT_STATUS'] = 404;
+
+                    return '';
                 }
             break;
             case 'application/xml':
-                if($this->route->hasContent('api'))
-                    return $this->route->getContent('api')->asXML();
+                if($this->route->hasContent('application/xml', $contentKey))
+                    return $this->route->getContent('application/xml', $contentKey)->asJson();
                 elseif(404 != http_response_code()) {
                     http_response_code(404);
                     $_SERVER['REDIRECT_STATUS'] = 404;
+
+                    return '';
                 }
+
             break;
 
             default:

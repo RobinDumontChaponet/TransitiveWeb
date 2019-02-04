@@ -30,11 +30,11 @@ class View extends Simple\View implements Core\View
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->styles = array();
         $this->scripts = array();
         $this->metas = array();
-        $this->title = '';
-        $this->content = null;
     }
 
     /**
