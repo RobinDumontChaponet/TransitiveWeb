@@ -2,6 +2,7 @@
 	"name": "transitive/web",
 	"description": "Web Front controller and view for transitive.",
 	"keywords": ["web", "framework", "mvp", "router", "frontcontroller", "model", "view", "presenter"],
+	"type": "library",
 	"license": "MIT",
 	"authors": [
 		{
