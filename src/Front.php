@@ -102,7 +102,11 @@ class Front extends Simple\Front implements Routing\FrontController
                 $_SERVER['REDIRECT_STATUS'] = $e->getCode();
             }
 
-            return $this->httpErrorRoute ?? self::$defaultHttpErrorRoute ?? null;
+            $route = $this->httpErrorRoute ?? self::$defaultHttpErrorRoute;
+            if(isset($route))
+                $route->addExposedVariable('query', $query);
+
+            return $route ?? null;
         }
     }
 
