@@ -238,19 +238,19 @@ class Front extends Simple\Front implements Routing\FrontController
             case 'application/json':
                 if($this->route->hasContent('application/json'))
                     return $this->route->getContentByType('application/json')->asJson();
-                elseif(404 != http_response_code()) {
-                    http_response_code(404);
-                    $_SERVER['REDIRECT_STATUS'] = 404;
+                elseif(300 >= http_response_code()) {
+                    http_response_code(204);
+                    $_SERVER['REDIRECT_STATUS'] = 204;
 
                     return '';
                 }
             break;
             case 'application/xml':
                 if($this->route->hasContent('application/xml', $contentKey))
-                    return $this->route->getContentByType('application/xml')->asJson();
-                elseif(404 != http_response_code()) {
-                    http_response_code(404);
-                    $_SERVER['REDIRECT_STATUS'] = 404;
+                    return $this->route->getContent('application/xml', $contentKey)->asJson();
+                elseif(300 >= http_response_code()) {
+                    http_response_code(204);
+                    $_SERVER['REDIRECT_STATUS'] = 204;
 
                     return '';
                 }
