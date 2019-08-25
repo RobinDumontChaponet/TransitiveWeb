@@ -142,9 +142,7 @@ class Front extends Simple\Front implements Routing\FrontController
                 header('Vary: X-Requested-With,Content-Type');
             }
 
-            $content = ['view' => $this->route->getView()];
-
-            $this->layout->getPresenter()->setData($content);
+            $this->layout->getPresenter()->add('view', $this->route->getView());
             $this->layout->execute($this->obClean);
         }
 
