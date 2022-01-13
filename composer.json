@@ -14,8 +14,8 @@
 	],
 	"require": {
 		"php": ">7.1",
-		"transitive/core":"dev-master",
-		"transitive/routing":"dev-master"
+		"transitive/core":"^2.4.4",
+		"transitive/routing":"^2.3.4"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~6.4.0",
