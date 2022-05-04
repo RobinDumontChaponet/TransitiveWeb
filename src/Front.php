@@ -6,7 +6,8 @@ use Transitive\Core;
 use Transitive\Simple;
 use Transitive\Routing;
 
-function getBestSupportedMimeType($mimeTypes = null) {
+function getBestSupportedMimeType($mimeTypes = null): ?string
+{
     // Values will be stored in this array
     $acceptTypes = array();
     // divide it into parts in the place of a ","
@@ -25,29 +26,28 @@ function getBestSupportedMimeType($mimeTypes = null) {
     }
     arsort($acceptTypes);
     // if no parameter was passed, just return parsed data
-    if (!$mimeTypes) return $acceptTypes;
+    if (!$mimeTypes)
+		return $acceptTypes;
+
     $mimeTypes = array_map('strtolower', (array) $mimeTypes);
     // let’s check our supported types:
     foreach ($acceptTypes as $mime => $q) {
-       if ($q && in_array($mime, $mimeTypes)) return $mime;
+		if ($q && in_array($mime, $mimeTypes))
+			return $mime;
     }
+
     // no mime-type found
     return null;
 }
 
-/**
- * WebFront class.
- *
- * @extends Simple\Front
- * @implements Routing\FrontController
- */
 class Front extends Simple\Front implements Routing\FrontController
 {
-    private $httpErrorRoute;
-    private static $defaultHttpErrorRoute;
+	private ?string $contentType;
 
-    private $contentType;
-    public static $mimeTypes = array(
+    private ?Routing\Route $httpErrorRoute;
+    private static ?Routing\Route $defaultHttpErrorRoute;
+
+    public static array $mimeTypes = [
         'application/xhtml+xml', 'text/html',
         'application/json', 'application/xml',
         'application/vnd.transitive.content+xhtml', 'application/vnd.transitive.content+html',
@@ -56,16 +56,15 @@ class Front extends Simple\Front implements Routing\FrontController
         'application/vnd.transitive.head+json', 'application/vnd.transitive.head+xml', 'application/vnd.head+yaml',
         'application/vnd.transitive.document+json', 'application/vnd.transitive.document+xml', 'application/vnd.transitive.document+yaml',
         'text/plain',
-    );
+    ];
 
     public const defaultViewClassName = '\Transitive\Web\View';
 
     public function __construct()
     {
-        $this->contentType = getBestSupportedMimeType(self::$mimeTypes);
-        $this->obClean = true;
-        $this->obContent = '';
+		$this->contentType = getBestSupportedMimeType(self::$mimeTypes);
 
+        $this->obClean = true;
         $this->layout = new Routing\Route(new Core\Presenter(), new Simple\View());
 
         $this->setLayoutContent(function ($data) { ?><!DOCTYPE html>
@@ -174,11 +173,6 @@ class Front extends Simple\Front implements Routing\FrontController
 
     /**
      * Return processed content from current route.
-     *
-     * @return string
-     *
-     * @param string $contentType = null
-     * @param string $key         = null
      */
     public function getContent(string $contentType = null, string $contentKey = null): string
     {

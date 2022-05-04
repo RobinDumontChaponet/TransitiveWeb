@@ -7,49 +7,29 @@ use Transitive\Simple;
 
 class View extends Simple\View implements Core\View
 {
-    /**
-     * styles tags and linked scripts.
-     *
-     * @var array
-     */
-    public $styles;
-
-    /**
-     * scripts tags and linked scripts.
-     *
-     * @var array
-     */
-    public $scripts;
-
-    /**
-     * metas tags.
-     *
-     * @var array
-     */
-    public $metas;
-
-    public function __construct()
+    public function __construct(
+		/**
+		 * styles tags and linked scripts.
+		 */
+		public array $styles = [],
+		/**
+		 * scripts tags and linked scripts.
+		 */
+		public array $scripts = [],
+		/**
+		 * metas tags.
+		 */
+		public array $metas = [],
+	)
     {
         parent::__construct();
-
-        $this->styles = array();
-        $this->scripts = array();
-        $this->metas = array();
     }
 
-    /**
-     * @param string $prefix
-     * @param string $separator
-     * @param string $endSeparator
-     */
     public function getTitle(string $prefix = '', string $separator = ' | ', string $sufix = ''): string
     {
         return parent::getTitle('<title>'.$prefix, $separator, $sufix.'</title>');
     }
 
-    /*
-     * @return Core\ViewResource
-     */
     public function getHead(): Core\ViewResource
     {
         return new Core\ViewResource(array(
@@ -60,9 +40,6 @@ class View extends Simple\View implements Core\View
         ), 'asArray');
     }
 
-    /*
-     * @return string
-     */
     public function getHeadValue(): string
     {
         return '<head><meta charset="UTF-8">'
@@ -82,9 +59,6 @@ class View extends Simple\View implements Core\View
         );
     }
 
-    /**
-     * @param string $rawTag
-     */
     public function addRawMetaTag(string $rawTag): void
     {
         $this->metas[] = array(
@@ -92,10 +66,6 @@ class View extends Simple\View implements Core\View
         );
     }
 
-    /**
-     * @param string $name
-     * @param string $content
-     */
     public function addMetaTag(string $name, string $content = ''): void
     {
         $this->metas[] = array(
@@ -104,17 +74,11 @@ class View extends Simple\View implements Core\View
         );
     }
 
-    /**
-     * @return array
-     */
     public function getMetasValue(): array
     {
         return $this->metas;
     }
 
-    /*
-     * @return string
-     */
     public function getMetas(): string
     {
         $str = '';
@@ -129,10 +93,6 @@ class View extends Simple\View implements Core\View
         return $str;
     }
 
-    /**
-     * @param string $content
-     * @param string $type
-     */
     public function addStyle(string $content, string $type = 'text/css'): void
     {
         $this->styles[] = array(
@@ -141,10 +101,6 @@ class View extends Simple\View implements Core\View
         );
     }
 
-    /**
-     * @param string $content
-     * @param string $type
-     */
     public function addScript(string $content, string $type = 'text/javascript'): void
     {
         $this->scripts[] = array(
@@ -153,13 +109,6 @@ class View extends Simple\View implements Core\View
         );
     }
 
-    /**
-     * @param string $href
-     * @param string $type
-     * @param bool   $defer
-     * @param bool   $cacheBust
-     * @param string $rel
-     */
     public function linkStyleSheet(string $href, string $type = 'text/css', bool $defer = false, bool $cacheBust = true, string $rel = 'stylesheet'): void
     {
         if($cacheBust)
@@ -172,12 +121,6 @@ class View extends Simple\View implements Core\View
         );
     }
 
-    /**
-     * @param string $href
-     * @param string $type      = 'text/javascript'
-     * @param bool   $defer     = false
-     * @param bool   $cacheBust = true
-     */
     public function linkScript(string $href, string $type = 'text/javascript', bool $defer = false, bool $cacheBust = true): void
     {
         if($cacheBust)
@@ -189,9 +132,6 @@ class View extends Simple\View implements Core\View
         );
     }
 
-    /**
-     * @param string $rawTag
-     */
     public function addRawStyleTag(string $rawTag): void
     {
         $this->styles[] = array(
@@ -199,9 +139,6 @@ class View extends Simple\View implements Core\View
         );
     }
 
-    /**
-     * @param string $rawTag
-     */
     public function addRawScriptTag(string $rawTag): void
     {
         $this->scripts[] = array(
@@ -209,13 +146,6 @@ class View extends Simple\View implements Core\View
         );
     }
 
-    /**
-     * @param string $filepath
-     * @param string $type      = 'text/css'
-     * @param bool   $cacheBust = false
-     *
-     * @return bool
-     */
     public function importStyleSheet(string $filepath, string $type = 'text/css', bool $cacheBust = false): bool
     {
         if(!is_file($filepath)) {
@@ -236,13 +166,6 @@ class View extends Simple\View implements Core\View
         return true;
     }
 
-    /**
-     * @param string $filepath
-     * @param string $type      = 'text/javascript'
-     * @param bool   $cacheBust = false
-     *
-     * @return bool
-     */
     public function importScript(string $filepath, string $type = 'text/javascript', bool $cacheBust = false): bool
     {
         if(!is_file($filepath)) {
@@ -263,9 +186,6 @@ class View extends Simple\View implements Core\View
         return true;
     }
 
-    /*
-     * @return string
-     */
     public function getStyles(): string
     {
         $str = '';
@@ -282,9 +202,6 @@ class View extends Simple\View implements Core\View
         return $str;
     }
 
-    /*
-     * @return string
-     */
     public function getStylesContent(): string
     {
         $content = '';
@@ -296,9 +213,6 @@ class View extends Simple\View implements Core\View
         return $content;
     }
 
-    /*
-     * @return string
-     */
     public function getScripts(): string
     {
         $str = '';
@@ -315,9 +229,6 @@ class View extends Simple\View implements Core\View
         return $str;
     }
 
-    /*
-     * @return string
-     */
     public function getScriptsContent(): string
     {
         $content = '';
@@ -329,28 +240,16 @@ class View extends Simple\View implements Core\View
         return $content;
     }
 
-    /**
-     * @return array
-     */
     public function getScriptsValue(): array
     {
         return $this->scripts;
     }
 
-    /**
-     * @return array
-     */
     public function getStylesValue(): array
     {
         return $this->styles;
     }
 
-    /*
-     * @param string url
-     * @param int delay = 0
-     * @param int code = 303
-     * @return bool
-     */
     public function redirect(string $url, int $delay = 0, int $code = 303): bool
     {
         $this->addRawMetaTag('<meta http-equiv="refresh" content="'.$delay.'; url='.$url.'">');

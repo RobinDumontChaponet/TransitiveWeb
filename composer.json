@@ -13,7 +13,7 @@
 		}
 	],
 	"require": {
-		"php": ">7.1",
+		"php": ">8.1",
 		"transitive/core":"^2.4.4",
 		"transitive/routing":"^2.3.4"
 	},
