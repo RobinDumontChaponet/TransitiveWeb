@@ -44,8 +44,8 @@ class Front extends Simple\Front implements Routing\FrontController
 {
 	private ?string $contentType;
 
-    private ?Routing\Route $httpErrorRoute;
-    private static ?Routing\Route $defaultHttpErrorRoute;
+    private ?Routing\Route $httpErrorRoute = null;
+    private static ?Routing\Route $defaultHttpErrorRoute = null;
 
     public static array $mimeTypes = [
         'application/xhtml+xml', 'text/html',
