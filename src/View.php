@@ -84,12 +84,11 @@ class View extends Simple\View implements Core\View
 	{
 		$str = '';
 
-		if(isset($this->metas))
-			foreach($this->metas as $meta)
-				if(isset($meta['name']))
-					$str .= '<meta name="'.$meta['name'].'" content="'.$meta['content'].'">';
-				else
-					$str .= $meta['raw'];
+		foreach($this->metas as $meta)
+			if(isset($meta['name']))
+				$str .= '<meta name="'.$meta['name'].'" content="'.$meta['content'].'">';
+			else
+				$str .= $meta['raw'];
 
 		return $str;
 	}
@@ -196,14 +195,13 @@ class View extends Simple\View implements Core\View
 	{
 		$str = '';
 
-		if(isset($this->styles))
-			foreach($this->styles as $style)
-				if(isset($style['content']))
-					$str .= '<style type="'.$style['type'].'">'.$style['content'].'</style>';
-				elseif(isset($style['href']))
-					$str .= '<link rel="'.$style['rel'].'" type="'.$style['type'].'" href="'.$style['href'].'"'.(($style['defer']) ? ' defer async' : '').' />';
-				elseif(isset($style['raw']))
-					$str .= $style['raw'];
+		foreach($this->styles as $style)
+			if(isset($style['content']))
+				$str .= '<style type="'.$style['type'].'">'.$style['content'].'</style>';
+			elseif(isset($style['href']))
+				$str .= '<link rel="'.$style['rel'].'" type="'.$style['type'].'" href="'.$style['href'].'"'.(($style['defer']) ? ' defer async' : '').' />';
+			elseif(isset($style['raw']))
+				$str .= $style['raw'];
 
 		return $str;
 	}
@@ -211,10 +209,9 @@ class View extends Simple\View implements Core\View
 	public function getStylesContent(): string
 	{
 		$content = '';
-		if(isset($this->styles))
-			foreach($this->styles as $style)
-				if(isset($style['content']))
-					$content .= $style['content'].PHP_EOL;
+		foreach($this->styles as $style)
+			if(isset($style['content']))
+				$content .= $style['content'].PHP_EOL;
 
 		return $content;
 	}
@@ -223,14 +220,13 @@ class View extends Simple\View implements Core\View
 	{
 		$str = '';
 
-		if(isset($this->scripts))
-			foreach($this->scripts as $script)
-				if(isset($script['content']))
-					$str .= '<script type="'.$script['type'].'">'.$script['content'].'</script>';
-				elseif(isset($script['href']))
-					$str .= '<script type="'.$script['type'].'" src="'.$script['href'].'"'.(($script['defer']) ? ' defer async' : '').'></script>';
-				elseif(isset($script['raw']))
-					$str .= $script['raw'];
+		foreach($this->scripts as $script)
+			if(isset($script['content']))
+				$str .= '<script type="'.$script['type'].'">'.$script['content'].'</script>';
+			elseif(isset($script['href']))
+				$str .= '<script type="'.$script['type'].'" src="'.$script['href'].'"'.(($script['defer']) ? ' defer async' : '').'></script>';
+			elseif(isset($script['raw']))
+				$str .= $script['raw'];
 
 		return $str;
 	}
@@ -238,10 +234,10 @@ class View extends Simple\View implements Core\View
 	public function getScriptsContent(): string
 	{
 		$content = '';
-		if(isset($this->scripts))
-			foreach($this->scripts as $script)
-				if(isset($script['content']))
-					$content .= $script['content'];
+
+		foreach($this->scripts as $script)
+			if(isset($script['content']))
+				$content .= $script['content'];
 
 		return $content;
 	}
