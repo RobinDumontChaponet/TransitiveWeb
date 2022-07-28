@@ -14,8 +14,8 @@
 	],
 	"require": {
 		"php": ">8.1",
-		"transitive/core":"dev-master",
-		"transitive/routing":"dev-master"
+		"transitive/core":"^2.5.1",
+		"transitive/routing":"^2.4.1"
 	},
 	"suggest": {
         "transitive/utils": "sometimes usefull methods and function",
@@ -38,23 +38,5 @@
 	"scripts": {
 		"test": "./vendor/bin/phpunit --coverage-text --coverage-clover=build/logs/coverage.xml",
 		"psalm": "./vendor/bin/psalm"
-	},
-	"repositories": [
-		{
-			"type": "path",
-			"url": "/Users/r-dc/Sites/Transitive/Core",
-			"options": {
-			  "symlink": true
-			},
-			"canonical": false
-		},
-		{
-			"type": "path",
-			"url": "/Users/r-dc/Sites/Transitive/Routing",
-			"options": {
-			  "symlink": true
-			},
-			"canonical": false
-		}
-	]
+	}
 }
