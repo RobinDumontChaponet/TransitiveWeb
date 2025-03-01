@@ -6,7 +6,7 @@ use Transitive\Core;
 use Transitive\Simple;
 use Transitive\Routing;
 
-function getBestSupportedMimeType(array $mimeTypes = null): ?string
+function getBestSupportedMimeType(?array $mimeTypes = null): ?string
 {
     // Values will be stored in this array
     $acceptTypes = [];
@@ -91,7 +91,7 @@ class Front extends Simple\Front implements Routing\FrontController
         return $this->contentType;
     }
 
-    protected function _getRoute(string $query, string $defaultViewClassName = null): ?Routing\Route
+    protected function _getRoute(string $query, ?string $defaultViewClassName = null): ?Routing\Route
     {
         try {
             return parent::_getRoute($query, $defaultViewClassName);
