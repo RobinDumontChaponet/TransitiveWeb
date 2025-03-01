@@ -14,8 +14,8 @@
 	],
 	"require": {
 		"php": ">8.1",
-		"transitive/core":"^2.5.1",
-		"transitive/routing":"^2.4.1"
+		"transitive/core":"^2.5.2",
+		"transitive/routing":"^2.4.2"
 	},
 	"suggest": {
         "transitive/utils": "sometimes usefull methods and function",
