@@ -91,6 +91,7 @@ class Front extends Simple\Front implements Routing\FrontController
         return $this->contentType;
     }
 
+    #[\Override]
     protected function _getRoute(string $query, ?string $defaultViewClassName = null): ?Routing\Route
     {
         try {
@@ -109,6 +110,7 @@ class Front extends Simple\Front implements Routing\FrontController
         }
     }
 
+    #[\Override]
     public function execute(string $queryURL = '', bool $sendHeaders = true): ?Routing\Route
     {
         $this->route = $this->_getRoute($queryURL, self::defaultViewClassName);
@@ -155,6 +157,7 @@ class Front extends Simple\Front implements Routing\FrontController
     /**
      * @codeCoverageIgnore
      */
+    #[\Override]
     public function __debugInfo()
     {
         return [
@@ -178,6 +181,7 @@ class Front extends Simple\Front implements Routing\FrontController
     /**
      * Return processed content from current route.
      */
+    #[\Override]
     public function getContent(string $contentType = '', string $contentKey = ''): string
     {
         if(empty($this->route)) {
@@ -192,44 +196,31 @@ class Front extends Simple\Front implements Routing\FrontController
         switch($contentType) {
             case 'application/vnd.transitive.document+json':
                 return (string) $this->route->getDocument();
-            break;
             case 'application/vnd.transitive.document+xml':
                 return $this->route->getDocument()?->asXML('document') ?? '';
-            break;
             case 'application/vnd.transitive.document+yaml':
                 return $this->route->getDocument()?->asYAML() ?? '';
-            break;
             case 'application/vnd.transitive.head+json':
                 return $this->route->getHead()->asJson();
-            break;
             case 'application/vnd.transitive.head+xml':
                 return $this->route->getHead()->asXML('head');
-            break;
             case 'application/vnd.transitive.head+yaml':
                 return $this->route->getHead()->asYAML();
-            break;
             case 'application/vnd.transitive.content+xhtml': case 'application/vnd.transitive.content+html':
                 return (string) $this->route->getContent();
-            break;
             case 'application/vnd.transitive.content+css':
                 return $this->route->view instanceof View ? $this->route->view->getStylesContent() : '';
-            break;
             case 'application/vnd.transitive.content+javascript':
                 return $this->route->view instanceof View ? $this->route->view->getScriptsContent() : '';
-            break;
             case 'application/vnd.transitive.content+json':
                 return $this->route->getContent()?->asJson() ?? '';
-            break;
             case 'application/vnd.transitive.content+xml':
                 return $this->route->getContent()?->asXML('content') ?? '';
-            break;
             case 'application/vnd.transitive.content+yaml':
                 return $this->route->getContent()?->asYAML() ?? '';
-            break;
 
             case 'text/plain':
                 return $this->layout?->getContent()?->asString() ?? '';
-            break;
 
             case 'application/json':
                 if($this->route->hasContent('application/json'))
@@ -240,7 +231,6 @@ class Front extends Simple\Front implements Routing\FrontController
                 }
 
 				return '';
-            break;
             case 'application/xml':
                 if($this->route->hasContent('application/xml', $contentKey))
                     return $this->route->getContent('application/xml', $contentKey)?->asJson() ?? '';
@@ -250,7 +240,6 @@ class Front extends Simple\Front implements Routing\FrontController
                 }
 
 				return '';
-            break;
 
             default:
                 return (string) $this->layout?->getView();

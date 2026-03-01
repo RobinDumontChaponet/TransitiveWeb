@@ -26,11 +26,13 @@ class View extends Simple\View implements Core\View
 		parent::__construct();
 	}
 
+	#[\Override]
 	public function getTitle(string $prefix = '', string $separator = ' | ', string $sufix = ''): string
 	{
 		return parent::getTitle('<title>'.$prefix, $separator, $sufix.'</title>');
 	}
 
+	#[\Override]
 	public function getHead(): Core\ViewResource
 	{
 		return new Core\ViewResource(array(
@@ -41,6 +43,7 @@ class View extends Simple\View implements Core\View
 		), 'asArray');
 	}
 
+	#[\Override]
 	public function getHeadValue(): string
 	{
 		return '<head><meta charset="UTF-8">'
@@ -48,6 +51,7 @@ class View extends Simple\View implements Core\View
 			   .'</head>';
 	}
 
+	#[\Override]
 	public function __debugInfo()
 	{
 		return array(
