@@ -1,18 +1,24 @@
 # Transitive\Web
 
+HTTP front controller and HTML-oriented view layer for Transitive.
+
+This package builds on `transitive/core` and `transitive/routing` to provide browser-facing rendering, content negotiation, default HTML layout handling, and helpers for scripts, styles, and metadata.
+
 [![Latest Stable Version](https://poser.pugx.org/transitive/web/v/stable?format=flat-square)](https://packagist.org/packages/transitive/web)
 [![License](https://poser.pugx.org/transitive/web/license?format=flat-square)](https://packagist.org/packages/transitive/web)
-[![Build Status](https://travis-ci.org/RobinDumontChaponet/TransitiveWeb.svg?branch=master)](https://travis-ci.org/RobinDumontChaponet/TransitiveWeb)
-[![Coverage Status](https://coveralls.io/repos/github/RobinDumontChaponet/TransitiveWeb/badge.svg)](https://coveralls.io/github/RobinDumontChaponet/TransitiveWeb)
 
 ## Installation
-
 ```sh
 composer require transitive/web
 ```
 
-## Basic Usage
+PHP `8.1+` is required.
 
+## What is included
+- `Transitive\Web\Front`: an HTTP front controller with `Accept` header negotiation and response header management.
+- `Transitive\Web\View`: a richer (than Transitive\Simple) view implementation with title, meta tag, stylesheet, and script helpers.
+
+## Basic Usage
 ```php
 <?php
 
@@ -31,26 +37,44 @@ echo $front;
 
 ```
 
+## Response formats
+`Transitive\Web\Front` can emit different representations depending on the resolved content type, including:
+
+- HTML and XHTML
+- JSON
+- XML
+- YAML
+- raw stylesheet content
+- raw script content
+- serialised document/head/content payloads
+
+By default it inspects `$_SERVER['HTTP_ACCEPT']` and chooses the best supported MIME type.
+
+## View helpers
+`Transitive\Web\View` extends the simple core view with helpers such as:
+
+- `addMetaTag()` / `addRawMetaTag()`
+- `addStyle()` / `linkStyleSheet()` / `importStyleSheet()`
+- `addScript()` / `linkScript()` / `importScript()`
+- `getHead()`, `getMetas()`, `getStyles()`, and `getScripts()`
+
+Example:
+
+```php
+<?php
+
+use Transitive\Web\View;
+
+$view = new View();
+$view->setTitle('Home');
+$view->addMetaTag('description', 'Example page');
+$view->linkStyleSheet('/assets/site.css');
+$view->linkScript('/assets/site.js', defer: true);
+$view->addContent(function($data) {
+	echo '<h1>Hello '.$data['name'].'</h1>';
+}, 'text/html');
+```
+
 ## License
 
-The MIT License (MIT)
-
-Copyright (c) 2016 Robin Dumont-Chaponet
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+[MIT](LICENSE)
