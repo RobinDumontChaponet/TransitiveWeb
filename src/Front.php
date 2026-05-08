@@ -11,7 +11,7 @@ function getBestSupportedMimeType(?array $mimeTypes = null): ?string
     // Values will be stored in this array
     $acceptTypes = [];
     // divide it into parts in the place of a ","
-    $accept = explode(',', strtolower(str_replace(' ', '', @$_SERVER['HTTP_ACCEPT'])));
+    $accept = explode(',', strtolower(str_replace(' ', '', @$_SERVER['HTTP_ACCEPT'] ?? '')));
     foreach ($accept as $a) {
         // the default quality is 1.
         $q = 1;
