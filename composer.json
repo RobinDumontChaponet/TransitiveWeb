@@ -14,8 +14,9 @@
 	],
 	"require": {
 		"php": ">8.1",
-		"transitive/core": "^2.5.3",
-		"transitive/routing": "^2.4.3"
+		"transitive/core": "^2.5.4",
+		"transitive/routing": "^2.4.4",
+		"transitive/simple": "^2.5.4"
 	},
 	"suggest": {
         "transitive/utils": "sometimes usefull methods and function",
@@ -36,7 +37,7 @@
 		"vimeo/psalm": "^6.12"
 	},
 	"scripts": {
-		"test": "./vendor/bin/phpunit --coverage-text --coverage-clover=build/logs/coverage.xml",
+		"test": "./vendor/bin/phpunit",
 		"psalm": "./vendor/bin/psalm"
 	}
 }
